@@ -2,23 +2,18 @@
 
 $:<<'lib'
 
-require 'rubygems'
-require 'gosu'
 require 'cogi'
 
-WIDTH, HEIGHT = 1024, 768
-
-class Welcome < Gosu::Window
+class Welcome < Cogi::GameWindow
   def initialize
-    super(WIDTH, HEIGHT)
-
-    self.caption = "Welcome!"
-
-    @world = Cogi::World.new(10, 10)
-  end
-
-  def draw
-    @world.draw
+    super(
+      width: 1024,
+      height: 768,
+      world: {
+        width: 50,
+        height: 50
+      }
+    )
   end
 end
 
