@@ -18,7 +18,7 @@ module Cogi
         rock: Block.new(self, 2)
       }
 
-      fill(0, 0, 31, 20)
+      fill(0, 0, 50, 50)
       put_block(0, 0, @block_map[:rock].dup)
 
       # @character = Cogi::Character.new(world: self)
@@ -54,9 +54,15 @@ module Cogi
     end
 
     def draw
-      _grid.each { |x, y, block|
+      cx = window.camera_x / tile_size
+      cy = window.camera_y / tile_size
+      hw = (window.half_width / tile_size) + 1 # Draw extra block to cover gap
+      hh = (window.half_height / tile_size) + 1 # Draw extra block to cover gap
+
+      _grid.each_within(cx, cy, hw, hh) { |x, y, block|
         block.draw(x, y)
       }
+
       # @character.draw
     end
 

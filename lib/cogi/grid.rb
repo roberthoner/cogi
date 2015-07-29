@@ -28,6 +28,26 @@ module Cogi
         }
       end
 
+      def each_within(cx, cy, hw, hh)
+        cx *= @mult_x
+        cy *= @mult_y
+
+        sx = [0, cx - hw].max # Starting x
+        ex = [0, cx + hw].max # Ending x
+        sy = [0, cy - hh].max # Starting y
+        ey = [0, cy + hh].max # Ending y
+
+        _rows.each { |y, xs|
+          if y >= sy && y < ey
+            xs.each { |x, value|
+              if x >= sx && x < ex
+                yield x * @mult_x, y * @mult_y, value
+              end
+            }
+          end
+        }
+      end
+
       def count
         _rows.map(&:count).inject(&:+)
       end
@@ -73,24 +93,11 @@ module Cogi
     end
 
     ##
-    # This is a little tricky...
-    # def each_within(cx, cy, half_width, half_height, &block)
-    #   cquad = _determine_quad(cx, cy)
-    #   quads = Set.new
-    #   quads << _determine_quad(cx + half_width, cy + half_height)
-    #   quads << _determine_quad(cx - half_width, cy + half_height)
-    #   quads << _determine_quad(cx - half_width, cy - half_height)
-    #   quads << _determine_quad(cx + half_width, cy - half_height)
-
-    #   quads.each { |quad|
-    #     if quad == cquad
-    #       qcx = cx
-    #       qcy = cy
-    #     else
-
-    #     end
-    #   }
-    # end
+    # Iterate through each of the values within the containing box.
+    # The center of the box is at (cx, cy).
+    def each_within(cx, cy, half_width, half_height, &block)
+      _quadrants.each_value { |quad| quad.each_within(cx, cy, half_width, half_height, &block) }
+    end
 
     def inspect
       _quadrants.values.map { |q| q.inspect }.join("\n\n")
