@@ -37,14 +37,14 @@ module Cogi
         sy = [0, cy - hh].max # Starting y
         ey = [0, cy + hh].max # Ending y
 
-        _rows.each { |y, xs|
-          if y >= sy && y < ey
-            xs.each { |x, value|
-              if x >= sx && x < ex
-                yield x * @mult_x, y * @mult_y, value
-              end
-            }
-          end
+        (sy..ey).each { |y|
+          row = _row(y)
+
+          (sx..ex).each { |x|
+            if (val=row[x])
+              yield x * @mult_x, y * @mult_y, val
+            end
+          }
         }
       end
 

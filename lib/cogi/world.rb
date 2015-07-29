@@ -18,8 +18,7 @@ module Cogi
         rock: Block.new(self, 2)
       }
 
-      fill(0, 0, 50, 50)
-      put_block(0, 0, @block_map[:rock].dup)
+      fill(0, 0, 1000, 1000)
 
       # @character = Cogi::Character.new(world: self)
       @gravity = 2
@@ -33,6 +32,8 @@ module Cogi
       @__event_bus ||= EventBus.new
     end
 
+    ##
+    # Fill the defined box with blocks.
     def fill(cx, cy, half_width, half_height)
       surface = cy
 
@@ -43,12 +44,19 @@ module Cogi
           # end
         }
       }
+
+      put_block(0, 0, @block_map[:rock].dup)
     end
 
+    ##
+    # Retrieve the block at the specified block coordinates.
     def block_at(x, y)
       _grid.get(x, y)
     end
 
+    ##
+    # Put a block at the (x, y) coordinates. These are block coordinates, not
+    # pixel coordinates.
     def put_block(x, y, block)
       _grid.set(x, y, block)
     end
@@ -59,13 +67,18 @@ module Cogi
       hw = (window.half_width / tile_size) + 1 # Draw extra block to cover gap
       hh = (window.half_height / tile_size) + 1 # Draw extra block to cover gap
 
+      count = 0
+
       _grid.each_within(cx, cy, hw, hh) { |x, y, block|
         block.draw(x, y)
+        count += 1
       }
-
       # @character.draw
     end
 
+    ##
+    # Draw a tile at a given (x, y) coordinates. These are block coordinates, not
+    # pixel coordinates.
     def draw_tile(tile_id, x, y)
       @tileset[tile_id].draw(
         x * tile_size + window.half_width - half_tile_size - window.camera_x,
