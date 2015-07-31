@@ -18,7 +18,7 @@ module Cogi
         rock: Block.new(self, 2)
       }
 
-      fill(0, 0, 1000, 1000)
+      fill(0, 0, 50, 50)
 
       # @character = Cogi::Character.new(world: self)
       @gravity = 2
@@ -51,14 +51,14 @@ module Cogi
     ##
     # Retrieve the block at the specified block coordinates.
     def block_at(x, y)
-      _grid.get(x, y)
+      _layer.get(x, y)
     end
 
     ##
     # Put a block at the (x, y) coordinates. These are block coordinates, not
     # pixel coordinates.
     def put_block(x, y, block)
-      _grid.set(x, y, block)
+      _layer.set(x, y, block)
     end
 
     def draw
@@ -69,7 +69,7 @@ module Cogi
 
       count = 0
 
-      _grid.each_within(cx, cy, hw, hh) { |x, y, block|
+      _layer.each_within(cx, cy, hw, hh) { |x, y, block|
         block.draw(x, y)
         count += 1
       }
@@ -93,8 +93,8 @@ module Cogi
 
     private
 
-    def _grid
-      @__grid ||= Grid.new
+    def _layer
+      @__layer ||= Layer.new
     end
   end # World
 end # Cogi
