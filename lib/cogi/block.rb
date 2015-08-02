@@ -13,9 +13,5 @@ module Cogi
     def solid?
       true
     end
-
-    def draw(x, y)
-      world.draw_tile(tile_id, x, y)
-    end
   end # Block
 end # Cogi

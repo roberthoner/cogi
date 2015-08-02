@@ -1,6 +1,7 @@
 module Cogi
-  autoload(:Window, 'cogi/windows/window')
-  autoload(:GameWindow, 'cogi/windows/game_window')
+  autoload(:Game, 'cogi/game')
+  autoload(:Client, 'cogi/client')
+  autoload(:Server, 'cogi/server')
   autoload(:World, 'cogi/world')
   autoload(:Layer, 'cogi/layer')
   autoload(:EventBus, 'cogi/event_bus')
